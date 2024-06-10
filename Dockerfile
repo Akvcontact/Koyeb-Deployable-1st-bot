@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 80
 
 # Define environment variable
-ENV NAME VoiceBot
+ENV NAME VoiceBo
 
 # Run bot.py when the container launches
 CMD ["python", "bot.py"]

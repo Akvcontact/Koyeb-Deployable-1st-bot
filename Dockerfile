@@ -21,4 +21,4 @@ COPY . /app/
 EXPOSE 8000
 
 # Start the bot using the entrypoint
-CMD ["python", "your_bot_script.py"]
+CMD ["python", "bot.py"]

@@ -39,12 +39,17 @@ class VoiceBot:
 
 
 
+<<<<<<< HEAD
        
        
        
        
         # Add handlers
         self.add_handlers()
+=======
+
+
+>>>>>>> 4e7d3843bb6a04e20301427e4dfbe7ae2cec05ff
 
     def start(self):
           # Adding a dummy HTTP server to keep the app running on port 8000

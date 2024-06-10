@@ -20,7 +20,7 @@ def get_peer_type(peer_id: int) -> str:
 import pyrogram.utils as utils
 utils.get_peer_type = get_peer_type
 
-# Set_up_logging
+# Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -33,26 +33,13 @@ class VoiceBot:
         self.invite_link = invite_link
         self.bot = Client("voice_bot", api_id=self.api_id, api_hash=self.api_hash, bot_token=self.bot_token)
 
-      #initialize the dictionary to store voice media type
+        # Initialize the dictionary to store voice media type
         self.Dict = {'voice_msg': None}
-    
-       
-       
-       
+
         # Add handlers
         self.add_handlers()
 
     def start(self):
-          # Adding a dummy HTTP server to keep the app running on port 8000
-        import http.server
-        import socketserver
-
-        PORT = 8000
-        Handler = http.server.SimpleHTTPRequestHandler
-
-        with socketserver.TCPServer(("", PORT), Handler) as httpd:
-            logger.info("serving at port", PORT)
-            httpd.serve_forever()
         self.bot.run()
 
     def add_handlers(self):
@@ -61,22 +48,7 @@ class VoiceBot:
         self.bot.add_handler(MessageHandler(self.voice_command, filters.command(['voice']) & (filters.private | filters.group)))
         self.bot.add_handler(MessageHandler(self.help_command, filters.command(['help']) & (filters.private | filters.group)))
 
-
-
-
-
-
-
-
-
-
-
-
-
     async def force_join_check(self, client, message):
-        # Your existing logic to check if the user has joined the channel
-        pass
-
         user_id = message.from_user.id
         chat_id = message.chat.id
         try:
@@ -92,13 +64,12 @@ class VoiceBot:
             return  # Ensure no further processing if the user is not a participant
         except Exception as e:
             logger.error(f"Error in force_join_check for user {user_id} in chat {chat_id}: {traceback.format_exc()}")
+            return
 
         # If the user is a participant, log the message and let the processing continue
         logger.info(f"User {user_id} is a participant in the channel. Processing further.")
         await self.process_message_handlers(client, message)
 
-
-#Receiver-compatible codes
     async def process_message_handlers(self, client, message):
         if message is None:
             logger.error("Received a None message object.")
@@ -111,46 +82,11 @@ class VoiceBot:
             logger.info("Received a voice message.")
             await self.voice_reply(client, message)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    #Command processing logic
         command = self.extract_command(message)
         if command == '/help':
             await self.help_command(client, message)
         elif command == '/voice':
             await self.voice_command(client, message)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     def extract_command(self, message):
         command = message.text.split()[0] if message.text else None
@@ -159,7 +95,6 @@ class VoiceBot:
         return command if command else ""  # Return an empty string if command is None
 
     async def voice_reply(self, client, message):
-        # Your existing logic to handle voice messages
         self.Dict['voice_msg'] = message.voice.file_id
         await client.send_message(message.chat.id, f"Hey {message.from_user.first_name}! Your voice message is saved.")
 
@@ -174,7 +109,6 @@ class VoiceBot:
             logging.error(f"Error handling /voice command: {e}")
 
     async def help_command(self, client, message):
-        # Your existing logic for the /help command
         await client.send_message(message.chat.id, "How can I help you?")
 
     def run(self):
@@ -182,10 +116,10 @@ class VoiceBot:
 
 # Instantiate and run the bot
 if __name__ == "__main__":
-    API_ID = '19341831'
-    API_HASH = 'd5dd7d867fc35ae9fa59c54e54d218ad'
-    BOT_TOKEN = '7167823797:AAHnrBgaWCWnSQ7F838QRAQO2auiboiJby0'
-    CHANNEL_ID = -1002218288744  # Replace with your actual channel ID
+    API_ID = int(os.environ.get("API_ID", "19341831"))
+    API_HASH = os.environ.get("API_HASH", "d5dd7d867fc35ae9fa59c54e54d218ad")
+    BOT_TOKEN = os.environ.get("BOT_TOKEN", "7167823797:AAHnrBgaWCWnSQ7F838QRAQO2auiboiJby0")
+    CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "-1002218288744"))
     CHANNEL_INVITE_LINK = 'https://t.me/+d5YjipSLU-0wMDg1'  # Replace with your channel invite link
 
     voice_bot = VoiceBot(API_ID, API_HASH, BOT_TOKEN, CHANNEL_ID, CHANNEL_INVITE_LINK)

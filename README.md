@@ -1,2 +1,2 @@
 This is a simple test bot.
-when you click /start then bot will reply.
+when you click /help then bot will reply.

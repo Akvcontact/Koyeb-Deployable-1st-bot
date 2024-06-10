@@ -1,20 +1,24 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim
+# Use the official Python image from the Docker Hub
+FROM python:3.12-slim
 
-# Set the working directory in the container
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PORT=8000
+
+# Create a working directory for the application
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Copy the requirements file into the image
+COPY requirements.txt /app/
 
-# Install any needed packages specified in requirements.txt
+# Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Make port 80 available to the world outside this container
-EXPOSE 80
+# Copy the bot's source code into the image
+COPY . /app/
 
-# Define environment variable
-ENV NAME VoiceBot
+# Expose the port for the health check
+EXPOSE 8000
 
-# Run bot.py when the container launches
-CMD ["python", "bot.py"]
+# Start the bot using the entrypoint
+CMD ["python", "your_bot_script.py"]

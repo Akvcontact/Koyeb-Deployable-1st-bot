@@ -26,45 +26,46 @@ class HelpBot:
         logger.info(f"Received /help command from chat {message.chat.id}")
         await client.send_message(message.chat.id, "How can I help you?")
 
-    def run(self):
+    async def run(self):
         logger.info("Starting HelpBot")
-        self.bot.run()
+        await self.bot.start()
+
+    async def stop(self):
+        await self.bot.stop()
 
 # Health check server
 async def health_check(request):
     return web.Response(text="OK")
 
-def main():
-    API_ID = int(os.environ.get("API_ID", ""))
+async def main():
+    API_ID = os.environ.get("API_ID", "")
     API_HASH = os.environ.get("API_HASH", "")
     BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
 
-    if not API_ID or not API_HASH or not BOT_TOKEN:
-        logger.error("API_ID, API_HASH, or BOT_TOKEN environment variables are not set")
-        exit(1)
+    if not API_ID.isdigit() or not API_HASH or not BOT_TOKEN:
+        logger.error("API_ID, API_HASH, or BOT_TOKEN environment variables are not set or invalid")
+        return
 
-    help_bot = HelpBot(API_ID, API_HASH, BOT_TOKEN)
+    help_bot = HelpBot(int(API_ID), API_HASH, BOT_TOKEN)
     
-    # Create a new event loop
-    loop = asyncio.get_event_loop()
-
     # Set up the health check server
     app = web.Application()
     app.router.add_get('/health', health_check)
     runner = web.AppRunner(app)
-    loop.run_until_complete(runner.setup())
+    await runner.setup()
     site = web.TCPSite(runner, '0.0.0.0', 8000)
-    loop.run_until_complete(site.start())
+    await site.start()
 
     # Run the bot
     try:
-        help_bot.run()
+        await help_bot.run()
     except KeyboardInterrupt:
         logger.info("Bot stopped by user")
     except Exception as e:
         logger.error(f"Unexpected error: {e}")
     finally:
-        loop.run_until_complete(runner.cleanup())
+        await runner.cleanup()
+        await help_bot.stop()
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

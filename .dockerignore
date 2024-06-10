@@ -1,5 +1,61 @@
-__pycache__
+# Ignore Python bytecode and cache files
+__pycache__/
 *.pyc
 *.pyo
+*.pyd
+
+# Ignore virtual environment directories
+venv/
+env/
+.venv/
+.env/
+
+# Ignore local environment and settings files
+.env
+.env.*
+*.local
+
+# Ignore operating system specific files
+.DS_Store
+Thumbs.db
+
+# Ignore log and temporary files
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# Ignore test files and directories
+tests/
+*.test
+*.spec
+
+# Ignore IDE and editor configurations
+.idea/
+.vscode/
+.project
+.pydevproject
+
+# Ignore Docker-specific files
+.dockerignore
+Dockerfile
+
+# Ignore Git-related files and directories
 .git
-.venv
+.gitignore
+
+# Ignore build artifacts
+dist/
+build/
+*.egg-info/
+
+# Ignore sensitive files (adjust based on your project specifics)
+secrets.json
+
+# Ignore node_modules (if your project uses any Node.js dependencies)
+node_modules/
+
+# Ignore any other files or directories not needed in the Docker image
+coverage/

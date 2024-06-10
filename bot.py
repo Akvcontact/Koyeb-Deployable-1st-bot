@@ -1,3 +1,4 @@
+import os
 from pyrogram import Client, filters
 from pyrogram.errors import UserNotParticipant
 from pyrogram.enums import ChatMemberStatus
@@ -38,15 +39,24 @@ class VoiceBot:
 
 
 
-
-
-
-
-
+       
+       
+       
+       
         # Add handlers
         self.add_handlers()
-        
+
     def start(self):
+          # Adding a dummy HTTP server to keep the app running on port 8000
+        import http.server
+        import socketserver
+
+        PORT = 8000
+        Handler = http.server.SimpleHTTPRequestHandler
+
+        with socketserver.TCPServer(("", PORT), Handler) as httpd:
+            logger.info("serving at port", PORT)
+            httpd.serve_forever()
         self.bot.run()
 
     def add_handlers(self):

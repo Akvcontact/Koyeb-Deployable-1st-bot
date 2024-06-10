@@ -1,3 +1,8 @@
+# Health check command
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD curl --fail http://localhost:8000/health || exit 1
+
+
 # Use the official Python image from the Docker Hub
 FROM python:3.12-slim
 
@@ -22,3 +27,4 @@ EXPOSE 8000
 
 # Start the bot using the entrypoint
 CMD ["python", "bot.py"]
+

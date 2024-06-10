@@ -19,7 +19,7 @@ def get_peer_type(peer_id: int) -> str:
 import pyrogram.utils as utils
 utils.get_peer_type = get_peer_type
 
-# Set up logging
+# Set_up_logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 

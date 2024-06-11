@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED=1 \
     API_ID=${API_ID} \
     API_HASH=${API_HASH} \
     BOT_TOKEN=${BOT_TOKEN} \
-    PORT=8080
+    PORT=8000
 
 # Set the working directory
 WORKDIR /app

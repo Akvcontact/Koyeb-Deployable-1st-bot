@@ -29,8 +29,10 @@ class HelpBot:
     async def run(self):
         logger.info("Starting HelpBot")
         await self.bot.start()
+        await asyncio.Event().wait()  # Keeps the event loop running
 
     async def stop(self):
+        logger.info("Stopping HelpBot")
         await self.bot.stop()
 
 # Health check server
@@ -38,11 +40,11 @@ async def health_check(request):
     return web.Response(text="OK")
 
 async def main():
-    API_ID = os.environ.get("API_ID", "")
-    API_HASH = os.environ.get("API_HASH", "")
-    BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
+    API_ID = os.getenv("API_ID","19341831")
+    API_HASH = os.getenv("API_HASH","d5dd7d867fc35ae9fa59c54e54d218ad")
+    BOT_TOKEN = os.getenv("BOT_TOKEN","7167823797:AAHnrBgaWCWnSQ7F838QRAQO2auiboiJby0")
 
-    if not API_ID.isdigit() or not API_HASH or not BOT_TOKEN:
+    if not API_ID or not API_ID.isdigit() or not API_HASH or not BOT_TOKEN:
         logger.error("API_ID, API_HASH, or BOT_TOKEN environment variables are not set or invalid")
         return
 
@@ -64,8 +66,8 @@ async def main():
     except Exception as e:
         logger.error(f"Unexpected error: {e}")
     finally:
-        await runner.cleanup()
         await help_bot.stop()
+        await runner.cleanup()
 
 if __name__ == "__main__":
     asyncio.run(main())

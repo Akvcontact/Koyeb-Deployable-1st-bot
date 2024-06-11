@@ -1,24 +1,27 @@
-# Use the official Python image from the Docker Hub
+# Use the official Python base image
 FROM python:3.12-slim
 
 # Set environment variables
-ENV PYTHONUNBUFFERED=1
-ENV PORT=8000
+ENV PYTHONUNBUFFERED=1 \
+    API_ID=${API_ID} \
+    API_HASH=${API_HASH} \
+    BOT_TOKEN=${BOT_TOKEN} \
+    PORT=8000
 
-# Create a working directory for the application
+# Set the working directory
 WORKDIR /app
 
-# Copy the requirements file into the image
-COPY requirements.txt /app/
+# Copy the requirements file into the container
+COPY requirements.txt .
 
-# Install the dependencies
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the bot's source code into the image
-COPY . /app/
+# Copy the rest of the application code
+COPY . .
 
-# Expose the port for the health check
-EXPOSE 8000
+# Expose the port the bot listens on
+EXPOSE $PORT
 
-# Start the bot using the entrypoint
+# Run the bot
 CMD ["python", "bot.py"]

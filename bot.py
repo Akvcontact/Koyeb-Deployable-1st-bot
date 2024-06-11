@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 API_ID = os.getenv("API_ID", "19341831")
 API_HASH = os.getenv("API_HASH", "d5dd7d867fc35ae9fa59c54e54d218ad")
 BOT_TOKEN = os.getenv("BOT_TOKEN", "7167823797:AAHnrBgaWCWnSQ7F838QRAQO2auiboiJby0")
-PORT = int(os.getenv("PORT", 8000))
+PORT = int(os.getenv("PORT", 8080))
 
 # Validate API_ID
 if API_ID and API_ID.isdigit():

@@ -24,4 +24,4 @@ COPY . .
 EXPOSE $PORT
 
 # Run the bot
-CMD ["python", "bot2.py"]
+CMD ["python", "bot.py"]

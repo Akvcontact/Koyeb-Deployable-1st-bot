@@ -27,12 +27,12 @@ async def main():
     app = web.Application()
     app.router.add_get('/', handle)
     
-    # Set up the health check server
-    app = web.Application()
-    app.router.add_get('/health', health_check)
-    runner = web.AppRunner(app)
+   runner = web.AppRunner(app)
     await runner.setup()
-    site = web.TCPSite(runner, '0.0.0.0', 8000)
+
+    # Using '0.0.0.0' to accept connections from any network interface
+    site = web.TCPSite(runner, '0.0.0.0', PORT)
+    logger.info(f"Starting server on port {PORT}")
     await site.start()
 
 

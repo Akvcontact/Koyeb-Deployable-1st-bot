@@ -27,14 +27,13 @@ async def main():
     app = web.Application()
     app.router.add_get('/', handle)
     
-   runner = web.AppRunner(app)
+    runner = web.AppRunner(app)
     await runner.setup()
-
+    
     # Using '0.0.0.0' to accept connections from any network interface
     site = web.TCPSite(runner, '0.0.0.0', PORT)
     logger.info(f"Starting server on port {PORT}")
     await site.start()
-
 
     # Keep the server running
     while True:
